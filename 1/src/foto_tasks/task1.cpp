@@ -1,20 +1,23 @@
-using namespace std;
+//
+// Created by cheily on 30.03.2025.
+//
 
 #include <iostream>
-#include "Point.h"
-#include "Vector.h"
-#include "Sphere.h"
-#include "Ray.h"
-#include "Plane.h"
-#include "Triangle.h"
-#include "Matrix.h"
-#include "Quaternion.h"
+#include "tasks.h"
+#include "../rtx/Point.h"
+#include "../rtx/Vector.h"
+#include "../rtx/Sphere.h"
+#include "../rtx/Plane.h"
+#include "../rtx/Triangle.h"
+
+using namespace std;
 
 void printVector(Vector v){
     cout << "[" << v.x << ", " << v.y << ", " << v.z << "]";
 }
 
-int main() {
+void foto::task1() {
+
     Point p1(5.f,4.f,2.f);
     Point p2(2.f,1.f,2.f);
 
@@ -157,9 +160,4 @@ int main() {
 
     if(tri.IntersectTriangle(ray3,intersectionTri3)) cout << "przecina" << endl;
     else cout << "nie przecina" << endl;
-
-    
-
-    return 0;
 }
-

@@ -83,6 +83,18 @@ namespace mathgik {
     struct vec {
         T data[size];
 
+        T mag() const {
+            T sum = 0;
+            for (int i = 0; i < size; i++) {
+                sum += data[i] * data[i];
+            }
+            return std::sqrt(sum);
+        }
+
+        vec<T, size> norm() const {
+            return *this / mag();
+        }
+
         T &operator[](int i) {
             return data[i];
         }

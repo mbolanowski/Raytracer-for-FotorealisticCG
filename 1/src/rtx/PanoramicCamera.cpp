@@ -2,6 +2,7 @@
 // Created by cheily on 01.04.2025.
 //
 
+#include <unordered_map>
 #include "PanoramicCamera.h"
 #include "Ray.h"
 #include "Sphere.h"
@@ -23,6 +24,33 @@ void PanoramicCamera::render_scene(tga_buffer *buffer) {
 
     Vector uvw_near_plane_start = u * u0 + v * v0 - w * nearPlane;
 
+    auto getColor = [&](Ray ray) -> color::color_t {
+        Vector intersection1, intersection2;
+        sphere.Hit(ray, nearPlane, farPlane, intersection1);
+        sphere2.Hit(ray, nearPlane, farPlane, intersection2);
+
+        if (intersection1 != Vector(0, 0, 0) && intersection2 != Vector(0, 0, 0)
+            && intersection1.Length() < intersection2.Length()) {
+            return color::RED;
+        } else if (intersection2 != Vector(0, 0, 0)) {
+            return color::GREEN;
+        } else if (intersection1 != Vector(0, 0, 0)) {
+            return color::RED;
+        }
+        return color::WHITE;
+    };
+
+    auto quincunx = [&](Vector a, Vector b, Vector c, Vector d, Vector e) -> color::color_t {
+        Ray rayA{position, a.NormalizeV()};
+        Ray rayB{position, b.NormalizeV()};
+        Ray rayC{position, c.NormalizeV()};
+        Ray rayD{position, d.NormalizeV()};
+
+
+        Ray rayE{position, e.NormalizeV()};
+
+    };
+
     for (int b = 0; b < buffer->height; ++b) {
         for (int a = 0; a < buffer->width; ++a) {
 
@@ -31,18 +59,7 @@ void PanoramicCamera::render_scene(tga_buffer *buffer) {
 
             Ray ray{position, xyz_pixel_center.NormalizeV()};
 
-            Vector intersection1, intersection2;
-            sphere.Hit(ray, nearPlane, farPlane, intersection1);
-            sphere2.Hit(ray, nearPlane, farPlane, intersection2);
-
-            if (intersection1 != Vector(0, 0, 0) && intersection2 != Vector(0, 0, 0)
-                && intersection1.Length() < intersection2.Length()) {
-                buffer->set_pixel(a, b, color::RED);
-            } else if (intersection2 != Vector(0, 0, 0)) {
-                buffer->set_pixel(a, b, color::GREEN);
-            } else if (intersection1 != Vector(0, 0, 0)) {
-                buffer->set_pixel(a, b, color::RED);
-            }
+            buffer->set_pixel(a, b, getColor(ray));
 
         }
     }

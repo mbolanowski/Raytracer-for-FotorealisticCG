@@ -10,6 +10,9 @@
 
 struct Camera {
 
+    color::color_t color_delta = {0.05, 0.05, 0.05, 0.05};
+    int max_rec_depth = 4;
+
     Vector position;
     Vector forward;
     Vector up;

@@ -23,7 +23,7 @@ namespace tga_spec {
         std::uint16_t width = 640;
         std::uint16_t height = 480;
         std::uint8_t pixel_depth = RGBA_1BPF;
-        std::uint8_t image_descriptor = (ALPHA_CHANNEL_BITS & 8) | ORIENTATION_TOP_TO_BOTTOM;
+        std::uint8_t image_descriptor = (ALPHA_CHANNEL_BITS & 8);// | ORIENTATION_TOP_TO_BOTTOM;
 
         enum color_map_type_t {
             NO_COLOR_MAP = 0,

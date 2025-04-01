@@ -36,6 +36,12 @@ public:
     float AngleBetween(Vector v);
 
     Vector rotateVectorAboutAngleAndAxis(float uAngle, Vector &uAxis);
+
+    Vector operator-() const;
+    Vector operator+(const Vector &v) const;
+    Vector operator-(const Vector &v) const;
+    Vector operator*(float f) const;
+    bool operator==(const Vector &v) const;
 };
 
 #endif //INC_2_VECTOR_H

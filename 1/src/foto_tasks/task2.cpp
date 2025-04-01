@@ -7,6 +7,10 @@
 #include "../tga/color.h"
 #include "../tga/tga_buffer.h"
 #include "../tga/tga_rasterizer.h"
+#include "../rtx/Camera.h"
+#include "../rtx/OrtographicCamera.h"
+#include "../rtx/Sphere.h"
+#include "../rtx/PanoramicCamera.h"
 
 using namespace std;
 using namespace tga_spec;
@@ -19,14 +23,14 @@ void foto::task2() {
     tga_buffer buffer(file.header.width, file.header.height, tga_pixel(color::as<std::uint8_t>(color::WHITE)), 0);
     tga_rasterizer rasterizer(&buffer);
 
-    triangle_vertices triangle_red{
-        vertex_data{ {-1, -1, -1}, color::RED },
-        vertex_data{ {0, 1, -1}, color::RED },
-        vertex_data{ {1, -1, -1}, color::RED }
-    };
+//    OrtographicCamera camera;
+//    camera.render_scene(&buffer);
 
-    rasterizer.triangle(triangle_red);
+    PanoramicCamera camera;
+    camera.forward = Vector(0, 0, 1);
+    camera.render_scene(&buffer);
 
+    rasterizer.debug();
     file.data.buffer_data(buffer.size(), buffer.color_buffer);
 
     file.write("output.tga");

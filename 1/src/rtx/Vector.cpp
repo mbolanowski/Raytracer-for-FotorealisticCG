@@ -154,3 +154,24 @@ Vector Vector::rotateVectorAboutAngleAndAxis(float uAngle, Vector &uAxis){
 
     return rotatedVector.v;
 }
+
+
+bool Vector::operator==(const Vector &v) const {
+    return x == v.x && y == v.y && z == v.z;
+}
+
+Vector Vector::operator-() const {
+    return {-x, -y, -z};
+}
+
+Vector Vector::operator+(const Vector &v) const {
+    return {x + v.x, y + v.y, z + v.z};
+}
+
+Vector Vector::operator-(const Vector &v) const {
+    return {x - v.x, y - v.y, z - v.z};
+}
+
+Vector Vector::operator*(float f) const {
+    return {x * f, y * f, z * f};
+}

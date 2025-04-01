@@ -8,6 +8,7 @@
 
 void OrtographicCamera::render_scene(tga_buffer * buffer) {
     Sphere sphere{Vector(1, 1, 4), 1};
+    Sphere sphere2{Vector(-1, -1, 3), 1.5};
 
     float px_width = 2.0f / buffer->width;
     float px_height = 2.0f / buffer->height;
@@ -35,10 +36,16 @@ void OrtographicCamera::render_scene(tga_buffer * buffer) {
 
             Ray ray{ray_origin, forward};
 
-            Vector intersection;
-            sphere.Hit(ray, 0, 1000, intersection);
+            Vector intersection1, intersection2;
+            sphere.Hit(ray, 0, 1000, intersection1);
+            sphere2.Hit(ray, 0, 1000, intersection2);
 
-            if (intersection != Vector(0, 0, 0)) {
+            if (intersection1 != Vector(0, 0, 0) && intersection2 != Vector(0, 0, 0)
+                && intersection1.Length() < intersection2.Length()) {
+                buffer->set_pixel(a, b, color::RED);
+            } else if (intersection2 != Vector(0, 0, 0)) {
+                buffer->set_pixel(a, b, color::GREEN);
+            } else if (intersection1 != Vector(0, 0, 0)) {
                 buffer->set_pixel(a, b, color::RED);
             }
 

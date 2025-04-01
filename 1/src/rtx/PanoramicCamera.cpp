@@ -7,7 +7,8 @@
 #include "Sphere.h"
 
 void PanoramicCamera::render_scene(tga_buffer *buffer) {
-    Sphere sphere{Vector(1, 1, 4), 2};
+    Sphere sphere{Vector(1, 1, 6), 2};
+    Sphere sphere2{Vector(-1, -1, 4), 1.5};
 
 
     Vector w = (-forward).NormalizeV();
@@ -30,10 +31,16 @@ void PanoramicCamera::render_scene(tga_buffer *buffer) {
 
             Ray ray{position, xyz_pixel_center.NormalizeV()};
 
-            Vector intersection;
-            sphere.Hit(ray, nearPlane, farPlane, intersection);
+            Vector intersection1, intersection2;
+            sphere.Hit(ray, nearPlane, farPlane, intersection1);
+            sphere2.Hit(ray, nearPlane, farPlane, intersection2);
 
-            if (intersection != Vector(0, 0, 0)) {
+            if (intersection1 != Vector(0, 0, 0) && intersection2 != Vector(0, 0, 0)
+                && intersection1.Length() < intersection2.Length()) {
+                buffer->set_pixel(a, b, color::RED);
+            } else if (intersection2 != Vector(0, 0, 0)) {
+                buffer->set_pixel(a, b, color::GREEN);
+            } else if (intersection1 != Vector(0, 0, 0)) {
                 buffer->set_pixel(a, b, color::RED);
             }
 

@@ -4,6 +4,7 @@
 
 #include <map>
 #include <vector>
+#include <unordered_map>
 #include "PanoramicCamera.h"
 #include "Ray.h"
 #include "Sphere.h"
@@ -71,13 +72,14 @@ void PanoramicCamera::render_scene(tga_buffer *buffer) {
 color::color_t
 PanoramicCamera::quincunx(Vector a, Vector b, Vector c, Vector d, const color::color_t & delta, const Vector & u, const Vector & v, const std::vector<Sphere> & scene, float px_height, float px_width, int max, int depth) {
     static std::vector<std::pair<color::color_t, float>> value_list{};
-    static std::map<Vector, color::color_t> registered{};
+    static std::unordered_map<Vector, color::color_t> registered{};
     static auto get_or_shoot = [this](const Ray & ray, const std::vector<Sphere> & scene) -> std::pair<color::color_t, bool> {
-        if (registered.contains(ray.Direction())) {
-            return {registered[ray.Direction()], false};
+        Vector direction = ray.Direction();
+        if (registered.contains(direction)) {
+            return {registered[direction], false};
         } else {
-            registered[ray.Direction()] = getColor(ray, scene);
-            return {registered[ray.Direction()], true};
+            registered[direction] = getColor(ray, scene);
+            return {registered[direction], true};
         }
     };
 
@@ -135,13 +137,17 @@ PanoramicCamera::quincunx(Vector a, Vector b, Vector c, Vector d, const color::c
 
     color::color_t colorE = get_or_shoot(rayE, scene).first;
 
-    value_list.push_back({(colorA.data + colorE.data) * 0.5f, current_weight});
-    value_list.push_back({(colorB.data + colorE.data) * 0.5f, current_weight});
-    value_list.push_back({(colorC.data + colorE.data) * 0.5f, current_weight});
-    value_list.push_back({(colorD.data + colorE.data) * 0.5f, current_weight});
+    for (const auto& color : unique_colors) {
+        value_list.push_back({(color.data + colorE.data) * 0.5f, current_weight});
+    }
+//    value_list.push_back({(colorA.data + colorE.data) * 0.5f, current_weight});
+//    value_list.push_back({(colorB.data + colorE.data) * 0.5f, current_weight});
+//    value_list.push_back({(colorC.data + colorE.data) * 0.5f, current_weight});
+//    value_list.push_back({(colorD.data + colorE.data) * 0.5f, current_weight});
 
     if (depth == 0) {
         color::color_t result = {0, 0, 0, 0};
+        std::cout << value_list.size() << std::endl;
         for (const auto& [color, weight] : value_list) {
             result.data += color.data * weight;
         }

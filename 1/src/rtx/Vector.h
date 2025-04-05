@@ -46,4 +46,16 @@ public:
     bool operator>(const Vector &v) const;
 };
 
+template<>
+struct std::hash<Vector>
+{
+    std::size_t operator()(const Vector& s) const noexcept
+    {
+        std::size_t h1 = std::hash<float>{}(s.x);
+        std::size_t h2 = std::hash<float>{}(s.y);
+        std::size_t h3 = std::hash<float>{}(s.z);
+        return h1 ^ (h2 << 1) ^ (h3 << 2); // or use boost::hash_combine
+    }
+};
+
 #endif //INC_2_VECTOR_H

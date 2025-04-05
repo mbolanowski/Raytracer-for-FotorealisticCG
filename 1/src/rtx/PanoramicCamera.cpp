@@ -11,20 +11,22 @@ void PanoramicCamera::render_scene(tga_buffer *buffer) {
     Sphere sphere{Vector(1, 1, 6), 2};
     Sphere sphere2{Vector(-1, -1, 4), 1.5};
 
+    float ratio = static_cast<float>(buffer->width) / static_cast<float>(buffer->height);
 
     Vector w = (-forward).NormalizeV();
     Vector u = (up.Cross(w).NormalizeV()); // originally negative
     Vector v = -w.Cross(u);                // originally positive
 
-    float px_width = 2.0f / buffer->width;
+
+    float px_width = 2.0f / buffer->width * ratio;
     float px_height = 2.0f / buffer->height;
 
-    float u0 = -1;
+    float u0 = -1 * ratio;
     float v0 = 1;
 
     Vector uvw_near_plane_start = u * u0 + v * v0 - w * nearPlane;
 
-    auto getColor = [&](Ray ray) -> color::color_t {
+    auto getColor = [&](const Ray& ray) -> color::color_t {
         Vector intersection1, intersection2;
         sphere.Hit(ray, nearPlane, farPlane, intersection1);
         sphere2.Hit(ray, nearPlane, farPlane, intersection2);

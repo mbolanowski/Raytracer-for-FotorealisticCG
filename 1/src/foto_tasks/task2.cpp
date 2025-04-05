@@ -18,7 +18,7 @@ using namespace tga_spec;
 void foto::task2() {
 
     tga_file file;
-    file.set_size(400, 400);
+    file.set_size(160, 90);
 
     tga_buffer buffer(file.header.width, file.header.height, tga_pixel(color::as<std::uint8_t>(color::WHITE)), 0);
     tga_rasterizer rasterizer(&buffer);

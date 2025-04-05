@@ -4,6 +4,7 @@
 
 #pragma once
 #include "math/vector.h"
+#include "tga_spec/tga_pixel.h"
 
 namespace color {
     using color_t = mathgik::f4;
@@ -39,49 +40,41 @@ namespace color {
     const color_t LAVENDER =   { 0.902,0.902, 0.98, 1 };
     const color_t PLUM =       { 0.867,0.627, 0.867,1 };
 
-        template<typename data_t>
-    static mathgik::vec4<data_t> as(color_t color) {
-        data_t max = 0;
-        for (int i = 0; i < sizeof(data_t); ++i) {
-            max += 0xff;
-            if (i != sizeof(data_t) - 1) max <<= 8;
-        }
+    color_t negative(color_t color);
+    color_t negative_alpha(color_t color);
 
-        mathgik::vec4<data_t> result;
-        result.data = {
-            (data_t)(color.r * max),
-            (data_t)(color.g * max),
-            (data_t)(color.b * max),
-            (data_t)(color.a * max)};
+    /**
+     * @brief Converts a color_t to a tga_spec::tga_pixel.
+     * @param color The color to convert.
+     * @return Color converted to tga_spec::tga_pixel.
+     */
+    tga_spec::tga_pixel as_pixel(color_t color);
 
-        return result;
-    }
+    /**
+     * @brief Converts a tga_spec::tga_pixel to a color_t.
+     * @param pixel The pixel to convert.
+     * @return Pixel converted to color_t.
+     * @implnote Uses std::numeric_limits to get the maximum value of tga_spec::tga_pixel_field.
+     */
+    color_t from_pixel(tga_spec::tga_pixel pixel);
 
+    /**
+     * @brief Converts a color_t to a mathgik::vec4<data_t> with the given data type.
+     * @tparam data_t Type of fields in the vector.
+     * @param color The color to convert.
+     * @return Color converted to mathgik::vec4<data_t>.
+     */
     template<typename data_t>
-    static data_t as_packed(color_t color, bool tga_format = true) {
-        auto pack_size = sizeof(data_t) * 8;
-        auto field_size = pack_size / 4;
+    mathgik::vec4<data_t> as(color_t color);
 
-        data_t field_mask = 0;
-        for (int i = 0; i < field_size; ++i) {
-            field_mask |= 0b1;
-            if (i != field_size - 1) field_mask <<= 1;
-        }
-
-        data_t result = 0;
-        if (tga_format) {
-            result |= (data_t)(color.b * field_mask);
-            result |= (data_t)(color.g * field_mask) << field_size;
-            result |= (data_t)(color.r * field_mask) << field_size * 2;
-            result |= (data_t)(color.a * field_mask) << field_size * 3;
-        } else {
-            result |= (data_t) (color.r * field_mask);
-            result |= (data_t) (color.g * field_mask) << field_size;
-            result |= (data_t) (color.b * field_mask) << field_size * 2;
-            result |= (data_t) (color.a * field_mask) << field_size * 3;
-        }
-
-        return result;
-    }
+    /**
+     * @brief Converts a color_t to a packed representation, with all fields packed into a single variable.
+     * @tparam data_t Type of packed data.
+     * @param color The color to convert.
+     * @param tga_format If true, the color is packed in TGA format (BGRA, necessary for proper data saving), otherwise in normal format (RGBA).
+     * @return Packed color.
+     */
+    template<typename data_t>
+    data_t as_packed(color_t color, bool tga_format = true);
 }
 

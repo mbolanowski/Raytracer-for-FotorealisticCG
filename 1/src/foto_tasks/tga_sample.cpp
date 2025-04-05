@@ -17,7 +17,7 @@ void foto::tga_sample() {
     tga_file file;
     file.set_size(400, 400);
 
-    tga_buffer buffer(file.header.width, file.header.height, tga_pixel(color::as<std::uint8_t>(color::WHITE)), 0);
+    tga_buffer buffer(file.header.width, file.header.height, color::WHITE, 0);
     tga_rasterizer rasterizer(&buffer);
 
     triangle_vertices triangle_red{

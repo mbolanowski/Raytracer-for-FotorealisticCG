@@ -6,7 +6,7 @@
 
 
 void tga_buffer::set_pixel(int x, int y, color::color_t color) {
-    set_pixel_pxt(x, y, tga_spec::tga_pixel(color::as<std::uint8_t>(color)));
+    set_pixel_pxt(x, y, color::as_pixel(color));
 }
 
 float tga_buffer::get_depth(int x, int y) {
@@ -37,4 +37,8 @@ void tga_buffer::clear_depth() {
 void tga_buffer::clear() {
     clear_color();
     clear_depth();
+}
+
+void tga_buffer::set_clear_color(color::color_t color) {
+    clr_color = color::as_pixel(color);
 }

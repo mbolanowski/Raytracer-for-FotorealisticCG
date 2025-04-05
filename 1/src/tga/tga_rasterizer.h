@@ -101,64 +101,32 @@ struct tga_rasterizer {
         }
     }
 
-//    void triangle(const mathgik::vec< mathgik::f3, 3 > & vertices, pixel_t color) {
-//        mathgik::vec< mathgik::i3, 3 > scaled = {
-//            scale(vertices[0]),
-//            scale(vertices[1]),
-//            scale(vertices[2])
-//        };
-//
-//        mathgik::i3 a = scaled[0];
-//        mathgik::i3 b = scaled[1];
-//        mathgik::i3 c = scaled[2];
-//
-//        int minx, maxx, miny, maxy;
-//        minx = std::min({scaled[0].x, scaled[1].x, scaled[2].x});
-//        maxx = std::max({scaled[0].x, scaled[1].x, scaled[2].x});
-//        miny = std::min({scaled[0].y, scaled[1].y, scaled[2].y});
-//        maxy = std::max({scaled[0].y, scaled[1].y, scaled[2].y});
-//
-//        minx = std::max(0, minx);
-//        maxx = std::min((int)buffer->width - 1, maxx);
-//        miny = std::max(0, miny);
-//        maxy = std::min((int)buffer->height - 1, maxy);
-//
-//        int dx_ab = a.x - b.x;
-//        int dx_bc = b.x - c.x;
-//        int dx_ca = c.x - a.x;
-//        int dy_ab = a.y - b.y;
-//        int dy_bc = b.y - c.y;
-//        int dy_ca = c.y - a.y;
-//
-//        for (int y = miny; y < maxy + 1; ++y) {
-//            for (int x = minx; x < maxx + 1; ++x) {
-//                mathgik::i3 p = {x, y, 0};
-//
-//                if (dx_ab * (p.y - a.y) - dy_ab * (p.x - a.x) > 0 &&
-//                    dx_bc * (p.y - b.y) - dy_bc * (p.x - b.x) > 0 &&
-//                    dx_ca * (p.y - c.y) - dy_ca * (p.x - c.x) > 0) {
-//
-//
-//                    buffer->set_pixel(x, y, color);
-//                    buffer->set_depth(x, y, p.z);
-//
-//                }
-//
-//            }
-//        }
-//
-//    }
+    void negative() {
+        for (int y = 0; y < buffer->height; ++y) {
+            for (int x = 0; x < buffer->width; ++x) {
+                auto pixel = buffer->get_pixel(x, y);
+                auto color = color::from_pixel(pixel);
+                color = color::negative(color);
+                buffer->set_pixel(x, y, color);
+            }
+        }
+    }
 
 
     void debug() {
-        buffer->set_pixel(0, 0, color::BLACK);
-        buffer->set_pixel(0, buffer->height - 1, color::BLACK);
-        buffer->set_pixel(buffer->width - 1, 0, color::BLACK);
-        buffer->set_pixel(buffer->width - 1, buffer->height - 1, color::BLACK);
+        auto c00 = color::CYAN;
+        auto c01 = color::MAGENTA;
+        auto c10 = color::YELLOW;
+        auto c11 = color::BLACK;
 
         for (int y = 0; y < buffer->height; ++y) {
-            buffer->set_pixel(0, y, color::BLACK);
-            buffer->set_pixel(buffer->width - 1, y, color::GREEN);
+            buffer->set_pixel(0, y, mathgik::vlerp(c00.data, c01.data, y/(1.0f * buffer->height)));
+            buffer->set_pixel(buffer->width - 1, y, mathgik::vlerp(c10.data, c11.data, y/(1.0f * buffer->height)));
+        }
+
+        for (int x = 0; x < buffer->width; ++x) {
+            buffer->set_pixel(x, 0, mathgik::vlerp(c00.data, c10.data, x/(1.0f * buffer->width)));
+            buffer->set_pixel(x, buffer->height - 1, mathgik::vlerp(c01.data, c11.data, x/(1.0f * buffer->width)));
         }
     }
 

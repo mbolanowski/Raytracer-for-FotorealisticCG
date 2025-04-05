@@ -8,7 +8,6 @@
 #include "tga_spec/tga_spec.h"
 #include "color.h"
 
-//requires tga_spec::is_tga_pixel<tga_spec::tga_pixel_1BPF>
 struct tga_buffer {
     tga_spec::tga_pixel * color_buffer;
     float * depth_buffer;
@@ -19,8 +18,8 @@ struct tga_buffer {
     std::size_t width;
     std::size_t height;
 
-    tga_buffer(std::size_t width, std::size_t height, tga_spec::tga_pixel clr_color, float clr_depth) :
-            width(width), height(height), clr_color(clr_color), clr_depth(clr_depth) {
+    tga_buffer(std::size_t width, std::size_t height, color::color_t clr_color, float clr_depth) :
+            width(width), height(height), clr_color(color::as_pixel(clr_color)), clr_depth(clr_depth) {
         color_buffer = new tga_spec::tga_pixel[width * height];
         depth_buffer = new float[width * height];
         clear();
@@ -36,6 +35,8 @@ struct tga_buffer {
 
     float get_depth(int x, int y);
     void set_depth(int x, int y, float depth);
+
+    void set_clear_color(color::color_t color);
 
     void clear_color();
     void clear_depth();

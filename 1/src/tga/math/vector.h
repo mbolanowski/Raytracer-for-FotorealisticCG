@@ -95,6 +95,21 @@ namespace mathgik {
             return *this / mag();
         }
 
+        vec & operator-() {
+            for (int i = 0; i < size; i++) {
+                data[i] = -data[i];
+            }
+            return *this;
+        }
+
+        vec operator-() const {
+            vec result;
+            for (int i = 0; i < size; i++) {
+                result[i] = -data[i];
+            }
+            return result;
+        }
+
         T &operator[](int i) {
             return data[i];
         }

@@ -20,7 +20,7 @@ void foto::task2() {
     tga_file file;
     file.set_size(160, 90);
 
-    tga_buffer buffer(file.header.width, file.header.height, tga_pixel(color::as<std::uint8_t>(color::WHITE)), 0);
+    tga_buffer buffer(file.header.width, file.header.height, color::WHITE, 0);
     tga_rasterizer rasterizer(&buffer);
 
 //    OrtographicCamera camera;
@@ -31,6 +31,7 @@ void foto::task2() {
     camera.render_scene(&buffer);
 
     rasterizer.debug();
+    rasterizer.negative();
     file.data.buffer_data(buffer.size(), buffer.color_buffer);
 
     file.write("output.tga");

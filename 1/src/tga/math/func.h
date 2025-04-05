@@ -19,4 +19,44 @@ namespace mathgik {
         return result;
     }
 
+    template<typename T, int size>
+    bool v_lt_scalar(const vec<T, size> &a, const vec<T, size> &b) {
+        for (int i = 0; i < size; i++) {
+            if (a[i] >= b[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    template<typename T, int size>
+    bool v_lte_scalar(const vec<T, size> &a, const vec<T, size> &b) {
+        for (int i = 0; i < size; i++) {
+            if (a[i] > b[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    template<typename T, int size>
+    bool v_gt_scalar(const vec<T, size> &a, const vec<T, size> &b) {
+        for (int i = 0; i < size; i++) {
+            if (a[i] <= b[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    template<typename T, int size>
+    bool v_gte_scalar(const vec<T, size> &a, const vec<T, size> &b) {
+        for (int i = 0; i < size; i++) {
+            if (a[i] < b[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }

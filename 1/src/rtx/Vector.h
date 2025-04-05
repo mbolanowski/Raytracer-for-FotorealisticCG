@@ -12,7 +12,7 @@ class Vector{
 public:
     float x, y ,z;
 
-    Vector();
+    Vector() noexcept;
     Vector(const Vector& v);
     Vector(Point p1, Point p2);
     Vector(float x, float y, float z);
@@ -26,7 +26,7 @@ public:
     Vector DivV(float f);
     void Mag(float f);
     Vector MagV(float f) const;
-    float Length();
+    float Length() const;
     void Normalize();
     Vector NormalizeV();
     Vector Dot(Vector v);
@@ -42,6 +42,8 @@ public:
     Vector operator-(const Vector &v) const;
     Vector operator*(float f) const;
     bool operator==(const Vector &v) const;
+    bool operator<(const Vector &v) const;
+    bool operator>(const Vector &v) const;
 };
 
 #endif //INC_2_VECTOR_H

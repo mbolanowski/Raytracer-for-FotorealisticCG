@@ -3,9 +3,14 @@
 //
 
 #include "tga_buffer.h"
+#include "math/math.h"
 
 
 void tga_buffer::set_pixel(int x, int y, color::color_t color) {
+    if (color.a < 1) {
+        color = mathgik::vlerp(color.data, color::from_pixel(get_pixel(x, y)).data, color.a);
+    }
+
     set_pixel_pxt(x, y, color::as_pixel(color));
 }
 

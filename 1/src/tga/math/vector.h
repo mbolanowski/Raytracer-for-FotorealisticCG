@@ -148,7 +148,8 @@ namespace mathgik {
             return *this;
         }
 
-        vec operator*(T s) const {
+        template<typename U>
+        vec operator*(U s) const {
             vec result;
             for (int i = 0; i < size; i++) {
                 result[i] = data[i] * s;
@@ -156,7 +157,8 @@ namespace mathgik {
             return result;
         }
 
-        vec &operator*=(T s) {
+        template<typename U>
+        vec &operator*=(U s) {
             for (int i = 0; i < size; i++) {
                 data[i] *= s;
             }

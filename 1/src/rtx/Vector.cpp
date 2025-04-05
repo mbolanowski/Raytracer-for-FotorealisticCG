@@ -1,7 +1,7 @@
 #include "Vector.h"
 #include "Quaternion.h"
 
-Vector::Vector() : x(0.0f), y(0.0f), z(0.0f) {}
+Vector::Vector() noexcept : x(0.0f), y(0.0f), z(0.0f) {}
 Vector::Vector(const Vector &v) : x(v.x), y(v.y), z(v.z) {}
 Vector::Vector(Point p1, Point p2) : x(p1.x - p2.x), y(p1.y - p2.y), z(p1.z - p2.z) {}
 Vector::Vector(float x, float y, float z) : x(x), y(y), z(z) {}
@@ -78,7 +78,7 @@ Vector Vector::MagV(float f) const {
     return result;
 }
 
-float Vector::Length(){
+float Vector::Length() const {
     return (float)sqrt(pow(x,2) + pow(y,2) + pow(z,2));
 }
 
@@ -174,4 +174,12 @@ Vector Vector::operator-(const Vector &v) const {
 
 Vector Vector::operator*(float f) const {
     return {x * f, y * f, z * f};
+}
+
+bool Vector::operator<(const Vector &v) const {
+    return Length() < v.Length();
+}
+
+bool Vector::operator>(const Vector &v) const {
+    return Length() > v.Length();
 }

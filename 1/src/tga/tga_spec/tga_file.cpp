@@ -13,11 +13,11 @@ namespace tga_spec {
     void tga_file::set_size(std::size_t width, std::size_t height) {
         header.width = width;
         header.height = height;
-        data.set_img_length(width * height * header.pixel_depth / 8);
+        data.set_img_size<tga_spec::tga_pixel>(width, height);
     }
 
     void tga_file::write(const char *filename) {
-        std::ofstream file(filename);
+        std::ofstream file(filename, std::ios::binary);
         if (!file.is_open()) {
             throw std::runtime_error("Failed to open file");
         }

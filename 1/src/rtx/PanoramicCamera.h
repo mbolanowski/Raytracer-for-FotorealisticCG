@@ -18,7 +18,9 @@ public:
 
     PanoramicCamera() = default;
     PanoramicCamera(Vector position, Vector target) : Camera(position, target) {}
-    void render_scene(tga_buffer * origin) override;
+
+    void render_scene(tga_buffer * buffer) override;
+    void render_scene_light(tga_buffer * buffer) override;
 
     color::color_t getColor(const Ray& ray, const std::vector<Sphere> & scene);
     color::color_t quincunx(

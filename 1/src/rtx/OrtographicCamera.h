@@ -14,4 +14,5 @@ public:
     OrtographicCamera() = default;
     OrtographicCamera(Vector position, Vector target) : Camera(position, target) {}
     void render_scene(tga_buffer * buffer) override;
+    void render_scene_light(tga_buffer * buffer) override;
 };

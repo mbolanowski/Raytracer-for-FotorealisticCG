@@ -24,11 +24,7 @@ color::color_t color::negative_alpha(color::color_t color) {
 
 template<typename data_t>
 mathgik::vec4<data_t> color::as(color::color_t color) {
-    data_t max = 0;
-    for (int i = 0; i < sizeof(data_t); ++i) {
-        max += 0xff;
-        if (i != sizeof(data_t) - 1) max <<= 8;
-    }
+    data_t max = std::numeric_limits<data_t>::max();
 
     mathgik::vec4<data_t> result;
     result.data = {

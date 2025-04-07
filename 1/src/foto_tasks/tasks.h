@@ -10,6 +10,7 @@ namespace foto {
 
     void task1();
     void task2();
+    void task3();
 }
 
 #endif //INC_2_TASKS_H

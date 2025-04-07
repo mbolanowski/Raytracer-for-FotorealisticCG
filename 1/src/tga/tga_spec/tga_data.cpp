@@ -31,8 +31,9 @@ namespace tga_spec {
         delete[] color_map;
     }
 
-    template<> void tga_data::buffer_data<tga_pixel>(std::size_t data_len, tga_pixel *data) {
-        for (std::size_t i = 0, j = 0; i < data_len && j < data_len * 4; ++i, j += 4) {
+    void tga_data::buffer_data(std::size_t data_len, tga_pixel * data) {
+        for (std::size_t i = 0; i < data_len; ++i) {
+            int j = i * 4;
             image_data[j] = data[i].b;
             image_data[j + 1] = data[i].g;
             image_data[j + 2] = data[i].r;

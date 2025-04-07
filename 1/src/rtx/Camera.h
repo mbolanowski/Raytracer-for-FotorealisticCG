@@ -22,5 +22,5 @@ struct Camera {
     virtual ~Camera() = default;
 
     virtual void render_scene(tga_buffer * buffer) = 0;
-
+    virtual void render_scene_light(tga_buffer * buffer) = 0;
 };

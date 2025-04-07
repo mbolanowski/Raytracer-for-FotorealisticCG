@@ -18,6 +18,8 @@ void printVector(Vector v){
 
 void foto::task1() {
 
+    Material mat(Vector(0.0f,0.0f,1.0f), 0.5f,0.5f,0.5f);
+
     Point p1(5.f,4.f,2.f);
     Point p2(2.f,1.f,2.f);
 
@@ -62,7 +64,7 @@ void foto::task1() {
 
 
     Vector center(0.0f,0.0f,0.0f);
-    Sphere sphere(center, 10.0f);
+    Sphere sphere(center, 10.0f, mat);
 
     Vector origin(0.0f,0.0f,-20.0f);
     Vector direction1 = center.SubV(origin);

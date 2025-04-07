@@ -1,9 +1,8 @@
 #include "Sphere.h"
+#include "../tga/color.h"
 
-Sphere::Sphere() : Center_(Vector(0, 0, 0)), Radius_(0) {}
-Sphere::Sphere(float r) : Center_(Vector(0, 0, 0)), Radius_(r) {}
-Sphere::Sphere(Vector v) : Center_(v), Radius_(0) {}
-Sphere::Sphere(Vector v, float r) : Center_(v), Radius_(r) {}
+Sphere::Sphere() : Center_(Vector(0, 0, 0)), Radius_(0), Material_(Material(Vector(0.0f,0.0f,1.0f), 0.5f, 0.5f, 0.5f)) {}
+Sphere::Sphere(Vector v, float r, Material mat) : Center_(v), Radius_(r), Material_(mat) {}
 
 bool Sphere::Hit(Ray ray, float t_min, float t_max, Vector &intersection) const {
     Vector oc = ray.Origin().SubV(Center_);

@@ -7,13 +7,12 @@
 
 #include "Vector.h"
 #include "Ray.h"
+#include "Material.h"
 
 class Sphere{
 public:
     Sphere();
-    Sphere(float r);
-    Sphere(Vector v);
-    Sphere(Vector v, float r);
+    Sphere(Vector v, float r, Material mat);
 
     bool Hit(Ray ray, float t_min, float t_max, Vector &intersection) const;
 
@@ -25,6 +24,7 @@ public:
 
     friend std::ostream& operator <<(std::ostream& os, const Sphere& sph);
 
+    Material Material_;
 private:
     Vector Center_;
     float Radius_;

@@ -17,7 +17,7 @@ namespace tga_spec {
     }
 
     void tga_file::write(const char *filename) {
-        std::ofstream file(filename);
+        std::ofstream file(filename, std::ios::binary);
         if (!file.is_open()) {
             throw std::runtime_error("Failed to open file");
         }

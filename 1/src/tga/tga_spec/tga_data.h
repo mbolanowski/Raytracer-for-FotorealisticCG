@@ -21,8 +21,7 @@ namespace tga_spec {
         ~tga_data();
 
         // has partial spec for pixel detail
-        template<typename pixel_t>
-        void buffer_data(std::size_t data_len, pixel_t * data);
+        void buffer_data(std::size_t data_len, tga_pixel * data);
 
         template<typename pixel_t>
         void set_img_size(std::size_t width, std::size_t height) {

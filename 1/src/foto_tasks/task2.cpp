@@ -18,7 +18,7 @@ using namespace tga_spec;
 void foto::task2() {
 
     tga_file file;
-    file.set_size(160, 90);
+    file.set_size(400, 200);
 
     tga_buffer buffer(file.header.width, file.header.height, color::WHITE, 0);
     tga_rasterizer rasterizer(&buffer);
@@ -31,7 +31,7 @@ void foto::task2() {
     camera.render_scene(&buffer);
 
     rasterizer.debug();
-    rasterizer.negative();
+//    rasterizer.negative();
     file.data.buffer_data(buffer.size(), buffer.color_buffer);
 
     file.write("output.tga");

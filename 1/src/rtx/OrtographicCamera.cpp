@@ -12,17 +12,17 @@ void OrtographicCamera::render_scene() {
     Sphere sphere{Vector(1, 1, 40), 1, mat};
     Sphere sphere2{Vector(-1, -1, 30), 1.5, mat};
 
-    float px_width = 2.0f / buffer->width;
+    float px_width = 2.0f / buffer->width * ratio;
     float px_height = 2.0f / buffer->height;
 
-    float window_width = buffer->width / 2;
+    float window_width = buffer->width / 2 * ratio;
     float window_height = buffer->height / 2;
 
     Vector w = (-forward).NormalizeV();
     Vector u = (up.Cross(w).NormalizeV()); // originally negative
     Vector v = -w.Cross(u);                // originally positive
 
-    Vector plane_start = u * -1 + v;
+    Vector plane_start = u * -1 * ratio + v;
 
     for (int b = 0; b < buffer->height; ++b) {
         for (int a = 0; a < buffer->width; ++a) {
@@ -66,7 +66,7 @@ void OrtographicCamera::render_scene_light() {
     float ambientIntensity = 0.1f;
     float diffuseIntensity = 0.8f;
 
-    float px_width = 2.0f / buffer->width;
+    float px_width = 2.0f / buffer->width * ratio;
     float px_height = 2.0f / buffer->height;
 
     float window_width = buffer->width / 2;
@@ -76,7 +76,7 @@ void OrtographicCamera::render_scene_light() {
     Vector u = (up.Cross(w).NormalizeV()); // originally negative
     Vector v = -w.Cross(u);                // originally positive
 
-    Vector plane_start = u * -1 + v;
+    Vector plane_start = u * -1 * ratio + v;
 
     auto getColor = [&](const Ray& ray) -> color::color_t {
         Vector intersection1, intersection2;

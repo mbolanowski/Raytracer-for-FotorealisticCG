@@ -13,7 +13,7 @@ Triangle::Triangle(const Vector &vertex1, const Vector &vertex2, const Vector &v
 : vertices{vertex1, vertex2, vertex3}, normals{normal1, normal2, normal3} {}
 
 
-bool Triangle::IntersectTriangleV(const Ray &ray, Vector &A, Vector &B, Vector &C, Vector &intersectionPoint) {
+bool Triangle::IntersectTriangleV(const Ray &ray, Vector &A, Vector &B, Vector &C, Vector &intersectionPoint) const {
     Vector AB = B.SubV(A);
     Vector AC = C.SubV(A);
     Vector normal = AB.Cross(AC);
@@ -44,7 +44,7 @@ bool Triangle::IntersectTriangleV(const Ray &ray, Vector &A, Vector &B, Vector &
     return false;
 }
 
-bool Triangle::IntersectTriangle(const Ray &ray, Vector &intersectionPoint) {
+bool Triangle::IntersectTriangle(const Ray &ray, Vector &intersectionPoint) const {
     Vector A = vertices[0];
     Vector B = vertices[1];
     Vector C = vertices[2];

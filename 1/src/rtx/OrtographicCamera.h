@@ -8,11 +8,32 @@
 #include "Camera.h"
 
 class OrtographicCamera : public Camera {
+private:
+    float window_half_width = 1.0f;
+    float window_half_height = 1.0f;
+
 public:
     bool world_space_window_size = false;
 
-    OrtographicCamera() = default;
-    OrtographicCamera(Vector position, Vector target) : Camera(position, target) {}
-    void render_scene(tga_buffer * buffer) override;
-    void render_scene_light(tga_buffer * buffer) override;
+    OrtographicCamera() : Camera() {
+        near_plane = 0.0f;
+        OrtographicCamera::update_uvw(); OrtographicCamera::update_aspect(); OrtographicCamera::update_frustum();
+    }
+    explicit OrtographicCamera(tga_buffer * buffer) : Camera(buffer) {
+        near_plane = 0.0f;
+        OrtographicCamera::update_uvw(); OrtographicCamera::update_aspect(); OrtographicCamera::update_frustum();
+    }
+    OrtographicCamera(Vector position, Vector target, tga_buffer * buffer) : Camera(position, target, buffer) {
+        near_plane = 0.0f;
+        OrtographicCamera::update_uvw(); OrtographicCamera::update_aspect(); OrtographicCamera::update_frustum();
+    }
+
+    void render_scene() override;
+    void render_scene_light() override;
+
+    void update_uvw() override;
+    void update_aspect() override;
+    void update_frustum() override;
+
+    Ray getRay(mathgik::f2 pos) const override;
 };

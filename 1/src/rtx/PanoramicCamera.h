@@ -8,27 +8,29 @@
 #include "Camera.h"
 #include "Ray.h"
 #include "Sphere.h"
+#include "Scene.h"
 #include <vector>
 
 class PanoramicCamera : public Camera {
 public:
 
-    float nearPlane = 1.0f;
-    float farPlane = 100.0f;
+    void update_uvw() override;
+    void update_frustum() override;
 
-    PanoramicCamera() = default;
-    PanoramicCamera(Vector position, Vector target) : Camera(position, target) {}
+    PanoramicCamera() : Camera() {
+        PanoramicCamera::update_uvw(); PanoramicCamera::update_aspect(); PanoramicCamera::update_frustum();
+    }
+    explicit PanoramicCamera(tga_buffer * buffer) : Camera(buffer) {
+        PanoramicCamera::update_uvw(); PanoramicCamera::update_aspect(); PanoramicCamera::update_frustum();
+    }
+    PanoramicCamera(const Vector& position, const Vector& target, tga_buffer * buffer) : Camera(position, target, buffer) {
+        PanoramicCamera::update_uvw(); PanoramicCamera::update_aspect(); PanoramicCamera::update_frustum();
+    }
 
-    void render_scene(tga_buffer * buffer) override;
-    void render_scene_light(tga_buffer * buffer) override;
+    void render_scene() override;
+    void render_scene_light() override;
 
-    color::color_t getColor(const Ray& ray, const std::vector<Sphere> & scene);
-    color::color_t quincunx(
-            Vector a, Vector b, Vector c, Vector d,
-            const color::color_t & delta,
-            const Vector & u, const Vector & v,
-            const std::vector<Sphere> & scene,
-            float px_height, float px_width,
-            int max, int depth = 0);
+    color::color_t getColor(const Ray& ray, const Scene & scene) override;
+    Ray getRay(mathgik::f2 pos) const override;
 
 };

@@ -19,8 +19,8 @@ public:
     Vector normals[3];
 
     //IntersectionResult Intersects(const Ray &ray, float range = 0.0f) const;
-    bool IntersectTriangleV(const Ray &ray, Vector &A, Vector &B, Vector &C, Vector &intersectionPoint);
-    bool IntersectTriangle(const Ray &ray, Vector &intersectionPoint);
+    bool IntersectTriangleV(const Ray &ray, Vector &A, Vector &B, Vector &C, Vector &intersectionPoint) const;
+    bool IntersectTriangle(const Ray &ray, Vector &intersectionPoint) const;
 };
 
 #endif //INC_2_TRIANGLE_H

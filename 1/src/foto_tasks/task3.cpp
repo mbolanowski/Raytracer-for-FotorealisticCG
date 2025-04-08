@@ -19,11 +19,10 @@ void foto::task3() {
     tga_buffer buffer(file.header.width, file.header.height, color::WHITE, 0);
     tga_rasterizer rasterizer(&buffer);
 
-    OrtographicCamera camera;
-    camera.render_scene_light(&buffer);
+    OrtographicCamera camera(&buffer);
+    camera.render_scene_light();
 
     //PanoramicCamera camera;
-    //camera.forward = Vector(0, 0, 1);
     //camera.render_scene_light(&buffer);
 
     rasterizer.debug();

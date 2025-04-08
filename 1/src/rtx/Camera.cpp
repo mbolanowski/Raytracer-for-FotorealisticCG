@@ -4,17 +4,24 @@
 
 #include "Camera.h"
 
-Camera::Camera()
-    : position(0, 0, 0),
-      forward(0, 0, 1),
-      up(0, 1, 0) {
-
+Camera::Camera(const Vector& position, const Vector& target, tga_buffer * buffer)
+    : antialiaser(this), position(position), forward(target), buffer(buffer) {
 }
 
-Camera::Camera(Vector position, Vector target)
-    : position(position),
-      forward(target),
-      up(0, 1, 0){
-
+color::color_t Camera::getColor(const Ray &ray, const Scene &scene) {
+    auto intersection = scene.getClosestIntersection(ray, this);
+    if (!intersection.hit) {
+        return buffer->clr_color_c;
+    }
+    else return intersection.material.color.to_color();
 }
 
+void Camera::update_aspect() {
+    ratio = static_cast<float>(buffer->width) / static_cast<float>(buffer->height);
+    px_width = 2.0f / buffer->width * ratio;
+    px_height = 2.0f / buffer->height;
+}
+
+Camera::Camera(tga_buffer *buffer) : antialiaser(this), buffer(buffer) {}
+
+Camera::Camera() : antialiaser(this) {}

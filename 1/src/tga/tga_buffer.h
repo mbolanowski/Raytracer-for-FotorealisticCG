@@ -12,6 +12,7 @@ struct tga_buffer {
     tga_spec::tga_pixel * color_buffer;
     float * depth_buffer;
 
+    color::color_t clr_color_c; // cache for quick access in loops
     tga_spec::tga_pixel clr_color;
     float clr_depth = 0;
 
@@ -19,7 +20,7 @@ struct tga_buffer {
     std::size_t height;
 
     tga_buffer(std::size_t width, std::size_t height, color::color_t clr_color, float clr_depth) :
-            width(width), height(height), clr_color(color::as_pixel(clr_color)), clr_depth(clr_depth) {
+            width(width), height(height), clr_color_c(clr_color), clr_color(color::as_pixel(clr_color)), clr_depth(clr_depth) {
         color_buffer = new tga_spec::tga_pixel[width * height];
         depth_buffer = new float[width * height];
         clear();

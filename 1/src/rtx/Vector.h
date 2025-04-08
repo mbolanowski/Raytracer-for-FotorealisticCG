@@ -6,11 +6,16 @@
 #pragma once
 #include <iostream>
 #include "Point.h"
+#include "../tga/color.h"
 
 
 class Vector{
 public:
-    float x, y ,z;
+    union {
+        struct { float x, y, z; };
+        struct { float u, v, w; };
+        struct { float r, g, b; };
+    };
 
     Vector() noexcept;
     Vector(const Vector& v);
@@ -36,6 +41,8 @@ public:
     float AngleBetween(Vector v);
 
     Vector rotateVectorAboutAngleAndAxis(float uAngle, Vector &uAxis);
+
+    inline color::color_t to_color() const { return {x, y, z, 1.0f}; }
 
     Vector operator-() const;
     Vector operator+(const Vector &v) const;

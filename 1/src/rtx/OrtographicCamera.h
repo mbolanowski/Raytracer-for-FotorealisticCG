@@ -9,8 +9,7 @@
 
 class OrtographicCamera : public Camera {
 private:
-    float window_half_width = 1.0f;
-    float window_half_height = 1.0f;
+    float window_scale = 5.0f;
 
 public:
     bool world_space_window_size = false;
@@ -28,7 +27,6 @@ public:
         OrtographicCamera::update_uvw(); OrtographicCamera::update_aspect(); OrtographicCamera::update_frustum();
     }
 
-    void render_scene() override;
     void render_scene_light() override;
 
     void update_uvw() override;

@@ -12,30 +12,6 @@
 #include "PointLight.h"
 #include "Scene.h"
 
-void PanoramicCamera::render_scene() {
-    Material mat(Vector(0.0f,0.0f,1.0f), 0.5f,0.5f,0.5f);
-    Material mat2(Vector(1.0f,0.0f,0.0f), 0.5f,0.5f,0.5f);
-    Scene scene;
-    scene.spheres = {
-            {Vector(1, 1, 5), 2, mat},
-            {Vector(-1, -1, 5), 1.5, mat2}
-    };
-
-    for (int b = 0; b < buffer->height; ++b) {
-        for (int a = 0; a < buffer->width; ++a) {
-
-            Vector uvw_pixel_top_left = uvw_near_plane_start + u * (float)a * px_width - v * (float)b * px_height;
-            Vector xyz_pixel_top_left = position + uvw_pixel_top_left;
-
-            color::color_t clr = antialiaser.quad({a, b}, scene);
-
-            buffer->set_pixel(a, b, clr);
-
-        }
-    }
-
-}
-
 void PanoramicCamera::render_scene_light() {
     Material mat(Vector(1.0f,0.0f,0.0f), 0.1f,0.05f,0.0f);
     Material mat2(Vector(1.0f,1.0f,0.0f), 0.1f,0.05f,0.0f);
@@ -142,8 +118,8 @@ void PanoramicCamera::render_scene_light() {
 
 }
 
-color::color_t PanoramicCamera::getColor(const Ray &ray, const Scene &scene) {
-    return Camera::getColor(ray, scene);
+color::color_t PanoramicCamera::get_color_raw(const Ray &ray, const Scene &scene) {
+    return Camera::get_color_raw(ray, scene);
 }
 
 Ray PanoramicCamera::getRay(mathgik::f2 pos) const {

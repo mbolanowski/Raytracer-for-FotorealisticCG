@@ -26,6 +26,7 @@ protected:
     RTAntialiaser antialiaser;
 
 public:
+    bool useAA = true;
     // void rotate(float angle, const Vector& axis);
     // void translate(const Vector& translation);
 
@@ -39,13 +40,15 @@ public:
     virtual ~Camera() = default;
 
 
-
     virtual float get_near_plane() const { return near_plane; }
     virtual float get_far_plane() const { return far_plane; }
 
     virtual Ray getRay(mathgik::f2 pos) const = 0;
-    virtual color::color_t getColor(const Ray& ray, const Scene & scene);
+    virtual color::color_t get_color_raw(const Ray& ray, const Scene & scene);
+    virtual color::color_t get_color_phong(const Ray& ray, const Scene & scene);
 
-    virtual void render_scene() = 0;
+    virtual void render_raw(const Scene & scene);
+    virtual void render_phong(const Scene & scene);
+
     virtual void render_scene_light() = 0;
 };

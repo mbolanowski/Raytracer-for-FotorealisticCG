@@ -18,21 +18,36 @@ using namespace tga_spec;
 void foto::task2() {
 
     tga_file file;
-    file.set_size(400, 400);
+    file.set_size(600, 400);
 
-    tga_buffer buffer(file.header.width, file.header.height, color::WHITE, 0);
-    tga_rasterizer rasterizer(&buffer);
+    tga_buffer buffer_pano(file.header.width, file.header.height, color::WHITE, 0);
+    tga_buffer buffer_ortho(file.header.width, file.header.height, color::WHITE, 0);
+    tga_rasterizer rasterizer_pano(&buffer_pano);
+    tga_rasterizer rasterizer_ortho(&buffer_ortho);
 
-    OrtographicCamera camera(&buffer);
-    camera.render_scene();
+    Material mat(Vector(0.0f,0.0f,1.0f), 0.5f,0.5f,0.5f);
+    Material mat2(Vector(1.0f,0.0f,0.0f), 0.5f,0.5f,0.5f);
+    Scene scene;
+    scene.spheres = {
+            {Vector(1, 1, 5), 2, mat},
+            {Vector(-1, -1, 6), 1.5, mat2}
+    };
 
-//    PanoramicCamera camera(&buffer);
+    PanoramicCamera camera_pano(&buffer_pano);
+    OrtographicCamera camera_ortho(&buffer_ortho);
+
+    camera_pano.render_raw(scene);
+    camera_ortho.render_raw(scene);
+
 //    camera.render_scene();
 
-    rasterizer.debug();
+    rasterizer_pano.debug();
+    rasterizer_ortho.debug();
 //    rasterizer.negative();
-    file.data.buffer_data(buffer.size(), buffer.color_buffer);
+    file.data.buffer_data(buffer_pano.size(), buffer_pano.color_buffer);
+    file.write("output-pnaoramic.tga");
 
-    file.write("output.tga");
+    file.data.buffer_data(buffer_ortho.size(), buffer_ortho.color_buffer);
+    file.write("output-orthographic.tga");
 
 }

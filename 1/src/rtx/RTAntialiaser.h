@@ -18,5 +18,5 @@ public:
     RTAntialiaser(Camera * camera, int quad_subdivisions = 4) : camera(camera), quad_divisions(quad_subdivisions) {};
     ~RTAntialiaser() = default;
 
-    color::color_t quad(const mathgik::i2 & pos, const Scene & scene);
+    color::color_t quad_raw(const mathgik::i2 & pos, const Scene & scene) const;
 };

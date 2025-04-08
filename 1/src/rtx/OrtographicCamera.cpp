@@ -7,56 +7,6 @@
 #include "Sphere.h"
 #include "PointLight.h"
 
-void OrtographicCamera::render_scene() {
-    Material mat(Vector(0.0f,0.0f,1.0f), 0.5f,0.5f,0.5f);
-    Sphere sphere{Vector(1, 1, 40), 1, mat};
-    Sphere sphere2{Vector(-1, -1, 30), 1.5, mat};
-
-    float px_width = 2.0f / buffer->width * ratio;
-    float px_height = 2.0f / buffer->height;
-
-    float window_width = buffer->width / 2 * ratio;
-    float window_height = buffer->height / 2;
-
-    Vector w = (-forward).NormalizeV();
-    Vector u = (up.Cross(w).NormalizeV()); // originally negative
-    Vector v = -w.Cross(u);                // originally positive
-
-    Vector plane_start = u * -1 * ratio + v;
-
-    for (int b = 0; b < buffer->height; ++b) {
-        for (int a = 0; a < buffer->width; ++a) {
-
-            float centerX = (float)(a) * px_width;
-            float centerY = (float)(b) * px_height;
-            if (world_space_window_size) {
-                centerX *= window_width;
-                centerY *= window_height;
-            }
-
-            Vector ray_origin = position + plane_start + u * centerX - v * centerY;
-
-            Ray ray{ray_origin, forward};
-
-//            Ray ray = getRay({static_cast<float>(a), static_cast<float>(b)});
-
-            Vector intersection1, intersection2;
-            sphere.Hit(ray, 0, 1000, intersection1);
-            sphere2.Hit(ray, 0, 1000, intersection2);
-
-            if (intersection1 != Vector(0, 0, 0) && intersection2 != Vector(0, 0, 0)
-                && intersection1.Length() < intersection2.Length()) {
-                buffer->set_pixel(a, b, color::RED);
-            } else if (intersection2 != Vector(0, 0, 0)) {
-                buffer->set_pixel(a, b, color::GREEN);
-            } else if (intersection1 != Vector(0, 0, 0)) {
-                buffer->set_pixel(a, b, color::RED);
-            }
-
-        }
-    }
-}
-
 void OrtographicCamera::render_scene_light() {
     Material mat(Vector(1.0f,0.0f,0.0f), 0.1f,0.05f,0.0f);
     Material mat2(Vector(1.0f,1.0f,0.0f), 0.1f,0.05f,0.0f);
@@ -166,22 +116,19 @@ void OrtographicCamera::render_scene_light() {
 }
 
 void OrtographicCamera::update_uvw() {
-    Vector w = (-forward).NormalizeV();
-    Vector u = (up.Cross(w).NormalizeV()); // originally negative
-    Vector v = -w.Cross(u);                // originally positive
+    w = (-forward).NormalizeV();
+    u = (up.Cross(w).NormalizeV()); // originally negative
+    v = -w.Cross(u);                // originally positive
 }
 
 void OrtographicCamera::update_aspect() {
     ratio = static_cast<float>(buffer->width) / static_cast<float>(buffer->height);
-    px_width = 2.0f / buffer->width;
-    px_height = 2.0f / buffer->height;
-
-    window_half_width = buffer->width / 2;
-    window_half_height = buffer->height / 2;
+    px_width = 2.0f / buffer->width * window_scale * ratio;
+    px_height = 2.0f / buffer->height * window_scale;
 }
 
 void OrtographicCamera::update_frustum() {
-    uvw_near_plane_start = u * -1 + v;
+    uvw_near_plane_start = u * -1 * ratio * window_scale + v * window_scale;
 }
 
 Ray OrtographicCamera::getRay(mathgik::f2 pos) const {

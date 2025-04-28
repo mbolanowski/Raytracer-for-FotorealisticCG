@@ -29,8 +29,6 @@ public:
         OrtographicCamera::update_uvw(); OrtographicCamera::update_aspect(); OrtographicCamera::update_frustum();
     }
 
-    void render_scene_light() override;
-
     void update_uvw() override;
     void update_aspect() override;
     void update_frustum() override;

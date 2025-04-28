@@ -49,6 +49,4 @@ public:
 
     virtual void render_raw(const Scene & scene);
     virtual void render_phong(const Scene & scene);
-
-    virtual void render_scene_light() = 0;
 };

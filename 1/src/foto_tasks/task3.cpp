@@ -37,13 +37,11 @@ void foto::task3() {
     orthoScene.lights = {light};
     orthoScene.ambientLight = Vector(0.1f, 0.1f, 0.1f);
 
-    OrtographicCamera camera(&buffer);
-//    camera.render_scene_light();
-    camera.render_phong(orthoScene);
+//    OrtographicCamera camera(&buffer);
+//    camera.render_phong(orthoScene);
 
-//    PanoramicCamera camera(&buffer);
-//    camera.render_scene_light();
-//    camera.render_phong(panoramicScene);
+    PanoramicCamera camera(&buffer);
+    camera.render_phong(panoramicScene);
 
     rasterizer.debug();
     //rasterizer.negative();

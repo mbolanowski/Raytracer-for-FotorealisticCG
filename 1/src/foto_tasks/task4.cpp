@@ -20,7 +20,7 @@ void foto::task4() {
     tga_rasterizer rasterizer(&buffer);
 
     PanoramicCamera camera(&buffer);
-    camera.render_scene_light();
+//    camera.render_scene_light();
 
     rasterizer.debug();
     //rasterizer.negative();

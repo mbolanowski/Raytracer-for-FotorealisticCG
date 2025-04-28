@@ -27,8 +27,6 @@ public:
         PanoramicCamera::update_uvw(); PanoramicCamera::update_aspect(); PanoramicCamera::update_frustum();
     }
 
-    void render_scene_light() override;
-
     color::color_t get_color_raw(const Ray& ray, const Scene & scene) override;
     Ray getRay(mathgik::f2 pos) const override;
 

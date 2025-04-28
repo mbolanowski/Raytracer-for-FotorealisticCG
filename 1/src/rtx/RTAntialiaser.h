@@ -19,4 +19,5 @@ public:
     ~RTAntialiaser() = default;
 
     color::color_t quad_raw(const mathgik::i2 & pos, const Scene & scene) const;
+    color::color_t quad_phong(const mathgik::i2 & pos, const Scene & scene) const;
 };

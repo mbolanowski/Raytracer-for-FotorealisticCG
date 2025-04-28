@@ -50,22 +50,24 @@ void Camera::render_raw(const Scene &scene) {
 }
 
 
-void Camera::render_phong(const Scene &scene) {
-    std::function<color::color_t(mathgik::i2)> get;
-    if (useAA) {
-        get = [this, scene](mathgik::i2 pos) {
-            return antialiaser.quad_raw(pos, scene);
-        };
-    } else {
-        get = [this, scene](mathgik::i2 pos) {
-            return get_color_phong(getRay({(float) pos.a, (float) pos.b}), scene);
-        };
-    }
+//void Camera::render_phong(const Scene &scene) {
+//    std::function < color::color_t(mathgik::i2) > get;
+//    if (useAA) {
+//        get = [this, scene](mathgik::i2 pos) {
+//            return antialiaser.quad_raw(pos, scene);
+//        };
+//    } else {
+//        get = [this, scene](mathgik::i2 pos) {
+//            return get_color_phong(getRay({(float) pos.a, (float) pos.b}), scene);
+//        };
+//    }
+//
+//    for (int b = 0; b < buffer->height; ++b) {
+//        for (int a = 0; a < buffer->width; ++a) {
+//
+//            buffer->set_pixel(a, b, get({a, b}));
+//
+//        }
+//    }
+//}
 
-    for (int b = 0; b < buffer->height; ++b) {
-        for (int a = 0; a < buffer->width; ++a) {
-
-            buffer->set_pixel(a, b, get({a, b}));
-
-        }
-    }

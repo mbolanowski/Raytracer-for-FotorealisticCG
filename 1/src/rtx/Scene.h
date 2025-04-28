@@ -5,6 +5,7 @@
 #pragma once
 
 #include <vector>
+#include <any>
 #include "Sphere.h"
 #include "Triangle.h"
 #include "PointLight.h"
@@ -18,11 +19,20 @@ struct Scene {
     std::vector<Triangle> triangles;
     std::vector<PointLight> lights;
     std::vector<Plane> planes;
+    Vector ambientLight;
+
+    enum shape_type {
+        SPHERE,
+        TRIANGLE,
+        PLANE
+    };
 
     struct SceneIntersection {
         bool hit = false;
         Vector vector;
         Material material;
+        std::any hitObject;
+        shape_type type;
     };
 
     SceneIntersection getClosestIntersection(const Ray & ray, Camera * camera) const;

@@ -45,10 +45,10 @@ public:
 
     virtual Ray getRay(mathgik::f2 pos) const = 0;
     virtual color::color_t get_color_raw(const Ray& ray, const Scene & scene);
-    virtual color::color_t get_color_phong(const Ray& ray, const Scene & scene);
+//    virtual color::color_t get_color_phong(const Ray& ray, const Scene & scene);
 
     virtual void render_raw(const Scene & scene);
-    virtual void render_phong(const Scene & scene);
+//    virtual void render_phong(const Scene & scene);
 
     virtual void render_scene_light() = 0;
 };

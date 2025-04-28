@@ -11,7 +11,7 @@
 using namespace std;
 using namespace tga_spec;
 
-void foto::task3() {
+void foto::task4() {
 
     tga_file file;
     file.set_size(400, 250);
@@ -19,11 +19,8 @@ void foto::task3() {
     tga_buffer buffer(file.header.width, file.header.height, color::WHITE, 0);
     tga_rasterizer rasterizer(&buffer);
 
-    OrtographicCamera camera(&buffer);
+    PanoramicCamera camera(&buffer);
     camera.render_scene_light();
-
-    //PanoramicCamera camera(&buffer);
-    //camera.render_scene_light();
 
     rasterizer.debug();
     //rasterizer.negative();

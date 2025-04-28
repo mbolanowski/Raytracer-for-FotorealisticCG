@@ -7,6 +7,7 @@
 
 #include "Vector.h"
 #include "Ray.h"
+#include "Material.h"
 #include <iostream>
 
 enum IntersectionType { MISS, HIT, INSIDE_PRIMITIVE };
@@ -23,6 +24,8 @@ public:
     Plane();
     Plane(Vector normal, float distance);
     Plane(Vector normal, Vector point);
+
+    Material Material_ = Material();
 
     bool Intersect3(const Plane &p2, const Plane &p3, Vector &result) const;
     IntersectionResult Intersects(const Ray &ray, float range = 0.0f) const;

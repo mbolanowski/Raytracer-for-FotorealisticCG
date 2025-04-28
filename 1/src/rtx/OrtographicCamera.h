@@ -10,6 +10,8 @@
 class OrtographicCamera : public Camera {
 private:
     float window_scale = 5.0f;
+    float window_width = 0.0f;
+    float window_height = 0.0f;
 
 public:
     bool world_space_window_size = false;

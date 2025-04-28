@@ -35,5 +35,6 @@ struct Scene {
         shape_type type;
     };
 
+    SceneIntersection getClosestIntersection(const Ray & ray, Camera * camera, float t_min, float t_max) const;
     SceneIntersection getClosestIntersection(const Ray & ray, Camera * camera) const;
 };

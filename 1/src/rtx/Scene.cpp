@@ -6,6 +6,10 @@
 #include "Camera.h"
 
 Scene::SceneIntersection Scene::getClosestIntersection(const Ray &ray, Camera *camera) const {
+    return getClosestIntersection(ray, camera, camera->get_near_plane(), camera->get_far_plane());
+};
+
+Scene::SceneIntersection Scene::getClosestIntersection(const Ray &ray, Camera *camera, float t_min, float t_max) const {
     std::vector<SceneIntersection> intersections{};
     intersections.reserve(spheres.size() + triangles.size() + planes.size());
 
@@ -38,5 +42,5 @@ Scene::SceneIntersection Scene::getClosestIntersection(const Ray &ray, Camera *c
         return a.vector.Length() < b.vector.Length();
     });
     return intersections.front();
-};
+}
 

@@ -21,21 +21,6 @@ void PanoramicCamera::render_scene_light() {
     float ambientIntensity = 0.1f;
     float diffuseIntensity = 0.8f;
 
-    float ratio = static_cast<float>(buffer->width) / static_cast<float>(buffer->height);
-
-    Vector w = (-forward).NormalizeV();
-    Vector u = (up.Cross(w).NormalizeV()); // originally negative
-    Vector v = -w.Cross(u);                // originally positive
-
-
-    float px_width = 2.0f / buffer->width * ratio;
-    float px_height = 2.0f / buffer->height;
-
-    float u0 = -1 * ratio;
-    float v0 = 1;
-
-    Vector uvw_near_plane_start = u * u0 + v * v0 - w * near_plane;
-
     auto getColor = [&](const Ray& ray) -> color::color_t {
         Vector intersection1, intersection2;
         bool hit1 = sphere.Hit(ray, near_plane, far_plane, intersection1);

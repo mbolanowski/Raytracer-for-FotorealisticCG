@@ -41,16 +41,29 @@ void foto::task4() {
 
 
     Material mat(Vector(color::RED), 0.1f,0.05f,true, false);
-    Material mat2(Vector(color::GREEN), 0.1f,0.05f,false, true, 1.2f);
+    Material mat2(Vector(color::GREEN), 0.1f,0.05f,false, true, 1.3f);
     Material mat3(Vector(color::BLUE), 0.1f,0.05f,false, false);
+    Material mat4(Vector(color::RED), 0.1f,0.05f,false, false);
+    Material mat5(Vector(color::GREEN), 0.1f,0.05f,false, false);
 //    PointLight light(Vector(4.0f,5.0f,5.0f), Vector(1.0f,1.0f,0.0f));
     Sphere sphere{Vector(0, 0, 4), 1.5, mat3};
     Sphere sphere2{Vector(0, -1.75, 2.5), 0.75, mat2};
     Sphere sphere3{Vector(1, 0, 1.5), 0.75, mat};
 
     Scene panoramicScene;
-    panoramicScene.spheres = {sphere, sphere2, sphere3};
-    panoramicScene.planes = {left, right, top, bottom, back};
+    panoramicScene.spheres = {sphere2, sphere3};
+    // add 8 more spheres of and on an equal radius, around the center
+    for (int i = 0; i < 8; ++i) {
+        float angle = i * (M_PI / 4);
+        float x = cos(angle) * 7;
+        float y = sin(angle) * 7;
+        panoramicScene.spheres.push_back({Vector(x, 0, y), 1.5, mat3});
+        panoramicScene.spheres.push_back({Vector(0, x, y), 1.5, mat3});
+        panoramicScene.spheres.push_back({Vector(x, x, y), 1.5, mat4});
+        panoramicScene.spheres.push_back({Vector(x, y, y), 1.5, mat5});
+    }
+
+//    panoramicScene.planes = {left, right, top, bottom, back};
     panoramicScene.lights = {light};
     panoramicScene.ambientLight = Vector(0.1f, 0.1f, 0.1f);
 
@@ -63,19 +76,19 @@ void foto::task4() {
     PanoramicCamera camera(&buffer_pano);
     camera.useAA = false;
 //    camera.render_phong(panoramicScene);
-    camera.render_recurse(panoramicScene, 3);
+    camera.render_recurse(panoramicScene, 5);
 
-//    OrtographicCamera camera_ortho(&buffer_ortho);
+    OrtographicCamera camera_ortho(&buffer_ortho);
 //    camera_ortho.render_phong(panoramicScene);
-//    camera_ortho.render_recurse(panoramicScene, 1);
+//    camera_ortho.render_recurse(panoramicScene, 5);
 
     rasterizer_pano.debug();
-//    rasterizer_ortho.debug();
+    rasterizer_ortho.debug();
 //    rasterizer_pano.negative();
     //rasterizer_ortho.negative();
     file.data.buffer_data(buffer_pano.size(), buffer_pano.color_buffer);
     file.write("output-panoramic.tga");
-//    file.data.buffer_data(buffer_ortho.size(), buffer_ortho.color_buffer);
-//    file.write("output-orthographic.tga");
+    file.data.buffer_data(buffer_ortho.size(), buffer_ortho.color_buffer);
+    file.write("output-orthographic.tga");
 
 }

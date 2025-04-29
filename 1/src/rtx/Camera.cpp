@@ -158,15 +158,15 @@ color::color_t Camera::get_color_phong(const Ray& ray, const Scene & scene) {
 
 void Camera::render_recurse(const Scene &scene, int recurse_max) {
     std::function < color::color_t(mathgik::i2) > get;
-//    if (useAA) {
-//        get = [this, scene](mathgik::i2 pos) {
-//            return antialiaser.quad_phong(pos, scene);
-//        };
-//    } else {
+    if (useAA) {
+        get = [this, scene, recurse_max](mathgik::i2 pos) {
+            return antialiaser.quad_recurse(pos, scene, recurse_max);
+        };
+    } else {
         get = [this, scene, &recurse_max](mathgik::i2 pos) {
             return get_color_recurse(getRay({(float) pos.a, (float) pos.b}), scene, recurse_max);
         };
-//    }
+    }
 
     for (int b = 0; b < buffer->height; ++b) {
         for (int a = 0; a < buffer->width; ++a) {
@@ -216,7 +216,7 @@ color::color_t Camera::get_color_recurse(const Ray &ray, const Scene &scene, int
 
         Ray secondary;
         if (mat->is_refract) {
-            secondary = {hitPoint, (ray.Origin() + ray.Direction()).refract(hitNormal, recurse == 0 ? 1.0f : mat->refract_coeff, mat->refract_coeff)};
+            secondary = {hitPoint, (ray.Origin() + ray.Direction()).refract(hitNormal, 1.0f, mat->refract_coeff)};
         } else {
             secondary = {hitPoint, (ray.Origin() + ray.Direction()).reflect(hitNormal)};
         }

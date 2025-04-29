@@ -26,15 +26,15 @@ void foto::task4() {
     Material mat_wall_green(Vector(color::GREEN), 0.1f,0.05f,false, false);
     Material mat_wall_white(Vector(color::WHITE), 0.1f,0.05f,false, false);
 
-    Plane left(Vector(-1,0,0), Vector(-10, 0, 0));
+    Plane left(Vector(-1,0,0), Vector(-3, 0, 0));
     left.Material_ = mat_wall_red;
-    Plane right(Vector(1,0,0), Vector(10, 0, 0));
+    Plane right(Vector(1,0,0), Vector(3, 0, 0));
     right.Material_ = mat_wall_green;
-    Plane top(Vector(0,-1,0), Vector(0, -10, 0));
+    Plane top(Vector(0,-1,0), Vector(0, -3, 0));
     top.Material_ = mat_wall_white;
-    Plane bottom(Vector(0,1,0), Vector(0, 10, 0));
+    Plane bottom(Vector(0,1,0), Vector(0, 3, 0));
     bottom.Material_ = mat_wall_white;
-    Plane back(Vector(0,0,-1), Vector(0, 0, -15));
+    Plane back(Vector(0,0,-1), Vector(0, 0, -5));
     back.Material_ = mat_wall_green;
 
     PointLight light(Vector(0.0f, 0.0f, 2.f), Vector(1.0f, 1.0f, 1.0f));
@@ -44,9 +44,9 @@ void foto::task4() {
     Material mat2(Vector(color::GREEN), 0.1f,0.05f,false, true, 1.2f);
     Material mat3(Vector(color::BLUE), 0.1f,0.05f,false, false);
 //    PointLight light(Vector(4.0f,5.0f,5.0f), Vector(1.0f,1.0f,0.0f));
-    Sphere sphere{Vector(0, 0, 12), 7.4, mat3};
-    Sphere sphere2{Vector(0, -0.75, 5), 2, mat2};
-    Sphere sphere3{Vector(4, 0, 3), 2, mat};
+    Sphere sphere{Vector(0, 0, 4), 1.5, mat3};
+    Sphere sphere2{Vector(0, -1.75, 2.5), 0.75, mat2};
+    Sphere sphere3{Vector(1, 0, 1.5), 0.75, mat};
 
     Scene panoramicScene;
     panoramicScene.spheres = {sphere, sphere2, sphere3};

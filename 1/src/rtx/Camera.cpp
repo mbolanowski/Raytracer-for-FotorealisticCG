@@ -249,7 +249,7 @@ color::color_t Camera::get_color_recurse(const Ray &ray, const Scene &scene, int
     float diffuse = 0.0f;
     float specular = 0.0f;
 
-    if (inShadow) {
+    if (!inShadow) {
         float cosTheta = std::max(0.0f, N.DotProduct(L));
         diffuse = cosTheta * /*diffuseIntensity*/ 0.8f;
 

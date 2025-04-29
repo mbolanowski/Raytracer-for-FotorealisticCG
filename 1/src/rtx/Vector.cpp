@@ -126,7 +126,7 @@ Vector Vector::Cross(Vector v) const {
     return Vector(y * v.z - z * v.y, z * v.x - x * v.z, x * v.y - y * v.x);
 }
 
-float Vector::AngleBetween(Vector v){
+float Vector::AngleBetween(Vector v) const {
     float dotP = DotProduct(v);
 
     float Length1 = Length();
@@ -182,4 +182,26 @@ bool Vector::operator<(const Vector &v) const {
 
 bool Vector::operator>(const Vector &v) const {
     return Length() > v.Length();
+}
+
+Vector Vector::reflect(Vector normal) const {
+    return *this - (normal * 2 * (normal.DotProduct(*this)));
+}
+
+Vector Vector::refract(Vector normal, float indexThis, float indexOther) const {
+//    const double n = indexThis / indexOther;
+//    const double cosI = -normal.DotProduct(*this);
+//    const double sinT2 = n * n * (1.0 - cosI * cosI);
+//    if (sinT2 > 1.0)
+//        return {0, 0, 0}; // TIR
+//    const double cosT = sqrt(1.0 - sinT2);
+//    return *this * n + normal * (n * cosI - cosT);
+
+    float eta = indexThis / indexOther;
+    float k = 1.0f - eta * eta * (1.0f - normal.DotProduct(*this) * normal.DotProduct(*this));
+    if (k < 0.0f) {
+        return {0, 0, 0};
+    } else {
+        return *this * eta - normal * (eta * normal.DotProduct(*this) + std::sqrt(k));
+    }
 }

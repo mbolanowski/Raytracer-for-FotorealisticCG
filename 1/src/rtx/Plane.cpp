@@ -26,17 +26,17 @@ IntersectionResult Plane::Intersects(const Ray &ray, float range) const{
     IntersectionResult result;
     result.type = MISS;
 
-    float ndotD = normal.DotProduct(ray.Direction());
+    float ndotD = normal.DotProduct(ray.Origin() + ray.Direction());
 
     if (ndotD == 0.0f) {
         return result;
     }
 
-    //float t = (-distance - normal.DotProduct(ray.Origin())) / ndotD;
-    float t = (distance - normal.DotProduct(ray.Origin())) / ndotD;
+//    float t = (-distance - normal.DotProduct(ray.Origin() + ray.Direction())) / ndotD;
+    float t = (distance - normal.DotProduct(ray.Origin() + ray.Direction())) / ndotD;
     if (t >= 0) {
         if (range == 0.0f || t < range) {
-            result.type = (normal.DotProduct(ray.Direction()) < 0) ? HIT : INSIDE_PRIMITIVE;
+            result.type = (normal.DotProduct(ray.Origin() + ray.Direction()) < 0) ? HIT : INSIDE_PRIMITIVE;
             Vector OriginCopy = ray.Origin();
             Vector DirectionCopy = ray.Direction();
             DirectionCopy.Mag(t);

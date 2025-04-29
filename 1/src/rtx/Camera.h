@@ -46,7 +46,9 @@ public:
     virtual Ray getRay(mathgik::f2 pos) const = 0;
     virtual color::color_t get_color_raw(const Ray& ray, const Scene & scene);
     virtual color::color_t get_color_phong(const Ray& ray, const Scene & scene);
+    virtual color::color_t get_color_recurse(const Ray& ray, const Scene & scene, int recurse_max, int recurse = 0);
 
     virtual void render_raw(const Scene & scene);
     virtual void render_phong(const Scene & scene);
+    virtual void render_recurse(const Scene & scene, int recurse_max);
 };

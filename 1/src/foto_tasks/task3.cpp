@@ -19,7 +19,7 @@ void foto::task3() {
     tga_buffer buffer(file.header.width, file.header.height, color::WHITE, 0);
     tga_rasterizer rasterizer(&buffer);
 
-        Material mat(Vector(1.0f,0.0f,0.0f), 0.1f,0.05f,0.0f);
+    Material mat(Vector(1.0f,0.0f,0.0f), 0.1f,0.05f,0.0f);
     Material mat2(Vector(1.0f,1.0f,0.0f), 0.1f,0.05f,0.0f);
     PointLight light(Vector(4.0f,5.0f,5.0f), Vector(1.0f,1.0f,0.0f));
     Sphere sphere{Vector(0, 1.2, 5), 1.5, mat};

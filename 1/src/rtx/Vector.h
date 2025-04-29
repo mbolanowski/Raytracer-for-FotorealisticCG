@@ -21,6 +21,7 @@ public:
     Vector(const Vector& v);
     Vector(Point p1, Point p2);
     Vector(float x, float y, float z);
+    Vector(color::color_t from_color) : x(from_color.r), y(from_color.g), z(from_color.b) {}
     ~Vector();
 
     void Add(const Vector &v);
@@ -38,9 +39,12 @@ public:
     float DotProduct(Vector v) const;
     Vector Cross(Vector v) const;
 
-    float AngleBetween(Vector v);
+    float AngleBetween(Vector v) const;
 
     Vector rotateVectorAboutAngleAndAxis(float uAngle, Vector &uAxis);
+
+    Vector reflect(Vector normal) const;
+    Vector refract(Vector normal, float indexThis, float indexOther) const;
 
     inline color::color_t to_color() const { return {x, y, z, 1.0f}; }
 

@@ -131,7 +131,7 @@ color::color_t Camera::get_color_phong(const Ray& ray, const Scene & scene) {
         float diffuse = 0.0f;
         float specular = 0.0f;
 
-        if (!inShadow) {
+        if (inShadow) {
             float cosTheta = std::max(0.0f, N.DotProduct(L));
             diffuse = cosTheta * /*diffuseIntensity*/ 0.8f;
 
@@ -211,8 +211,6 @@ color::color_t Camera::get_color_recurse(const Ray &ray, const Scene &scene, int
         std::cout << "Triangle hit" << std::endl;
     }
 
-    PointLight light = scene.lights[0];
-
 
     if (!mat->is_diffuse() && recurse_max > 0) {
 
@@ -230,6 +228,7 @@ color::color_t Camera::get_color_recurse(const Ray &ray, const Scene &scene, int
 //        std::cout << "Recurse max reached" << std::endl;
 //    }
 
+    PointLight light = scene.lights[0];
     Vector I = ray.Direction().NormalizeV(); // View direction
     Vector N = hitNormal; // Surface normal
     Vector L = (light.position - hitPoint).NormalizeV(); // Light direction
@@ -250,7 +249,7 @@ color::color_t Camera::get_color_recurse(const Ray &ray, const Scene &scene, int
     float diffuse = 0.0f;
     float specular = 0.0f;
 
-    if (!inShadow) {
+    if (inShadow) {
         float cosTheta = std::max(0.0f, N.DotProduct(L));
         diffuse = cosTheta * /*diffuseIntensity*/ 0.8f;
 

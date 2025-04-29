@@ -41,11 +41,11 @@ void foto::task4() {
 
 
     Material mat(Vector(color::RED), 0.1f,0.05f,true, false);
-    Material mat2(Vector(color::GREEN), 0.1f,0.05f,false, true, 1.f);
+    Material mat2(Vector(color::GREEN), 0.1f,0.05f,false, true, 1.2f);
     Material mat3(Vector(color::BLUE), 0.1f,0.05f,false, false);
 //    PointLight light(Vector(4.0f,5.0f,5.0f), Vector(1.0f,1.0f,0.0f));
-    Sphere sphere{Vector(0, 0, 15), 7.4, mat3};
-    Sphere sphere2{Vector(0, -3, 5), 2, mat2};
+    Sphere sphere{Vector(0, 0, 12), 7.4, mat3};
+    Sphere sphere2{Vector(0, -0.75, 5), 2, mat2};
     Sphere sphere3{Vector(4, 0, 3), 2, mat};
 
     Scene panoramicScene;

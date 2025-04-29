@@ -74,7 +74,7 @@ void foto::task4() {
 //    orthoScene.ambientLight = Vector(0.1f, 0.1f, 0.1f);
 
     PanoramicCamera camera(&buffer_pano);
-    camera.useAA = false;
+//    camera.useAA = false;
 //    camera.render_phong(panoramicScene);
     camera.render_recurse(panoramicScene, 5);
 
